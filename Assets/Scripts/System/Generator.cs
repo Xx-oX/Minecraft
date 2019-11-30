@@ -15,8 +15,8 @@ public class Generator : MonoBehaviour {
     public Transform Log;
     public Transform Stone;
 
-    public int width;
-    public int height;
+    [SerializeField] int width;
+    [SerializeField] int height;
 
     // Use this for initialization
     void Start () {

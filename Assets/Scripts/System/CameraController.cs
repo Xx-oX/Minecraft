@@ -2,9 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Transform))]
+
 public class CameraController : MonoBehaviour {
 
-    public float movingSpeed;
+    public Transform target;
+
+    [SerializeField] float x;
+    [SerializeField] float y;
+    [SerializeField] float xSensitive = 10;
+    [SerializeField] float ySensitive = 10;
+    [SerializeField] float distance;
+    [SerializeField] float rollSensitive = 10;
+    [SerializeField] float minDistance = 1;
+    [SerializeField] float maxDistance = 5;
+
+    private Quaternion rotationEuler;
+    private Vector3 cameraPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -14,31 +28,37 @@ public class CameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        controlCamera();
+        mouseControl();
 	}
 
-    // Use w/a/s/d to control the camera
-    void controlCamera()
+    // Use mouse to control camera
+    void mouseControl()
     {
-        if (Input.GetKey(KeyCode.W))
+        x += Input.GetAxis("Mouse X") * xSensitive * Time.deltaTime;
+        y -= Input.GetAxis("Mouse Y") * ySensitive * Time.deltaTime;
+
+        // Keep x in 360 degree
+        if (x > 360)
         {
-            // moving forward
-            transform.localPosition += movingSpeed * Time.deltaTime * transform.forward;
+            x -= 360;
         }
-        if (Input.GetKey(KeyCode.S))
+        else if (x < 0)
         {
-            // moving back
-            transform.localPosition += movingSpeed * Time.deltaTime * -transform.forward;
+            x += 360;
         }
-        if (Input.GetKey(KeyCode.A))
-        {
-            // moving left
-            transform.localPosition += movingSpeed * Time.deltaTime * -transform.right;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            // moving right
-            transform.localPosition += movingSpeed * Time.deltaTime * transform.right;
-        }
+
+        // Read mouse roll distance
+        distance -= Input.GetAxis("Mouse ScrollWheel") * rollSensitive * Time.deltaTime;
+        // Limit distance
+        distance = Mathf.Clamp(distance, minDistance, maxDistance);
+
+        // Compute camera position/rotation
+        rotationEuler = Quaternion.Euler(y, x, 0);
+        cameraPosition = rotationEuler * new Vector3(0, 0, -distance) + target.position;
+
+        // Apply
+        transform.rotation = rotationEuler;
+        transform.position = cameraPosition;
+
     }
 }
