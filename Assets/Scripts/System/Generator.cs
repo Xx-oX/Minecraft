@@ -21,6 +21,7 @@ public class Generator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         makePlatform(width,height);
+        
 	}
 	
 	// Update is called once per frame
@@ -37,7 +38,7 @@ public class Generator : MonoBehaviour {
             {
                 Transform c = Instantiate(Grass);
                 c.parent = transform;
-                c.localPosition = new Vector3(-width/2+i,height,-width/2+j);
+                c.localPosition = new Vector3(-width/2+i,height-c.transform.localScale.y/2,-width/2+j);
             }
         }
     }

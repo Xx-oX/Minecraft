@@ -18,6 +18,7 @@ public class CameraController : MonoBehaviour {
     [SerializeField] float maxDistance = 5;
 
     private Quaternion rotationEuler;
+    private Quaternion playerRotation;
     private Vector3 cameraPosition;
 
 	// Use this for initialization
@@ -54,10 +55,12 @@ public class CameraController : MonoBehaviour {
 
         // Compute camera position/rotation
         rotationEuler = Quaternion.Euler(y, x, 0);
+        playerRotation = Quaternion.Euler(0, x, 0);
         cameraPosition = rotationEuler * new Vector3(0, 0, -distance) + target.position;
 
         // Apply
         transform.rotation = rotationEuler;
+        target.transform.rotation = playerRotation;
         transform.position = cameraPosition;
 
     }
