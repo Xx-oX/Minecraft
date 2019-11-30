@@ -38,7 +38,7 @@ public class Generator : MonoBehaviour {
             {
                 Transform c = Instantiate(Grass);
                 c.parent = transform;
-                c.localPosition = new Vector3(-width/2+i,height-c.transform.localScale.y/2,-width/2+j);
+                c.localPosition = new Vector3(-width/2+i - c.transform.localScale.x / 2, height-c.transform.localScale.y/2,-width/2+j - c.transform.localScale.z / 2);
             }
         }
     }
