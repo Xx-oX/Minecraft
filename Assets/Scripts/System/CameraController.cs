@@ -10,12 +10,12 @@ public class CameraController : MonoBehaviour {
 
     [SerializeField] float x;
     [SerializeField] float y;
-    [SerializeField] float xSensitive = 10;
-    [SerializeField] float ySensitive = 10;
+    [SerializeField] float xSensitive = 50;
+    [SerializeField] float ySensitive = 40;
     [SerializeField] float distance;
-    [SerializeField] float rollSensitive = 10;
+    [SerializeField] float rollSensitive = 75;
     [SerializeField] float minDistance = 5;
-    [SerializeField] float maxDistance = 10;
+    [SerializeField] float maxDistance = 15;
 
     private Quaternion rotationEuler;
     private Quaternion playerRotation;

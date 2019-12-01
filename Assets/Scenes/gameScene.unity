@@ -288,7 +288,7 @@ MonoBehaviour:
   distance: 0
   rollSensitive: 75
   minDistance: 5
-  maxDistance: 10
+  maxDistance: 15
 --- !u!1 &599377934
 GameObject:
   m_ObjectHideFlags: 0

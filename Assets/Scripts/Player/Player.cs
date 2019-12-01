@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
 	void Start () {
         // lock cursor position
         Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
 
         rb = GetComponent<Rigidbody>();
@@ -69,28 +70,11 @@ public class Player : MonoBehaviour {
             if (Physics.Raycast(ray, out rch))
             {
                 Transform c = Instantiate(Dirt);
-                Debug.Log("r" + rch.point);
+                //Debug.Log("r" + rch.point);
                 if (rch.collider.gameObject.transform.tag == "Cube")
                 {
-                    float x, y, z;
-                    x = Mathf.Floor(rch.point.x) + c.transform.localScale.x / 2;
-
-                    //Debug.Log("rx"+ camera.transform.localRotation.eulerAngles.x);
-                    if (camera.transform.localRotation.eulerAngles.x > 0 && camera.transform.localRotation.eulerAngles.x < 180)
-                    {
-                        y = Mathf.Floor(rch.point.y) + c.transform.localScale.y / 2;
-                        //Debug.Log("1"+"y:" + y);
-                    }
-                    else
-                    {
-                        y = Mathf.Floor(rch.point.y) - c.transform.localScale.y / 2;
-                        //Debug.Log("2" + "y:" + y);
-                    }
-
-                    z = Mathf.Floor(rch.point.z) + c.transform.localScale.z / 2;
-
-                    c.transform.position = new Vector3(x, y, z);
-                    Debug.Log("x" + x + "y:" + y + "z" + z);
+                    //Debug.Log("n"+rch.normal);
+                    c.transform.position = rch.transform.position + rch.normal;
                 }
             }
             
