@@ -16,6 +16,7 @@ public class Player : MonoBehaviour {
     public Transform Log;
     public Transform Stone;
     public GameObject camera;
+    public int cubeType;
 
     [SerializeField] bool isFlying = false;
     [SerializeField] bool isOnGround;
@@ -29,9 +30,8 @@ public class Player : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         // lock cursor position
-        Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         rb = GetComponent<Rigidbody>();
         camera = GameObject.Find("Main Camera");
@@ -41,7 +41,71 @@ public class Player : MonoBehaviour {
 	void Update () {
         mouseClick();
         Movement();
-	}
+        numChangeCubeType();
+        cursorLockstate();
+    }
+
+    // Use C to change cursor.lockstate
+    void cursorLockstate()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if(Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
+    }
+
+    // Use button to choose cube type
+    public void changeCubeType(int a)
+    {
+        //a:1~8
+        cubeType = a;
+    }
+
+    // Use numpad to choose cube type
+    void numChangeCubeType()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            cubeType = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            cubeType = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            cubeType = 3;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            cubeType = 4;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            cubeType = 5;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+        {
+            cubeType = 6;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+        {
+            cubeType = 7;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+        {
+            cubeType = 8;
+        }
+    }
 
     // Left click to delete / Right click to create
     void mouseClick()
@@ -54,7 +118,7 @@ public class Player : MonoBehaviour {
 
             if(Physics.Raycast(ray,out rch))
             {
-                if(rch.transform.tag == "Cube")
+                if(rch.transform.tag == "Cube" && Cursor.lockState == CursorLockMode.Locked)
                 {
                     Destroy(rch.collider.gameObject);
                 }
@@ -69,7 +133,41 @@ public class Player : MonoBehaviour {
 
             if (Physics.Raycast(ray, out rch))
             {
-                Transform c = Instantiate(Dirt);
+                Transform c;
+                switch (cubeType)
+                {
+                    case 0:
+                        c = Instantiate(Dirt);
+                        break;
+                    case 1:
+                        c = Instantiate(Brick);
+                        break;
+                    case 2:
+                        c = Instantiate(Dirt);
+                        break;
+                    case 3:
+                        c = Instantiate(Glass);
+                        break;
+                    case 4:
+                        c = Instantiate(GoldOre);
+                        break;
+                    case 5:
+                        c = Instantiate(Grass);
+                        break;
+                    case 6:
+                        c = Instantiate(Lamp);
+                        break;
+                    case 7:
+                        c = Instantiate(Log);
+                        break;
+                    case 8:
+                        c = Instantiate(Stone);
+                        break;
+                    default:
+                        c = Instantiate(Stone);
+                        break;
+                }
+                
                 //Debug.Log("r" + rch.point);
                 if (rch.collider.gameObject.transform.tag == "Cube")
                 {
